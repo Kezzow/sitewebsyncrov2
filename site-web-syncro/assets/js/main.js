@@ -3,8 +3,10 @@
 
   /* ---------- Scroll fluide (Lenis) ---------- */
   var lenis = null;
+  var lenisTries = 0;
   function initLenis() {
-    if (!window.Lenis || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (lenis) return;
+    if (!window.Lenis) { if (++lenisTries < 100) setTimeout(initLenis, 100); return; }
     try {
       lenis = new window.Lenis({ duration: 1.2, easing: function (t) { return 1 - Math.pow(1 - t, 3); }, smoothWheel: true });
       var raf = function (time) { lenis.raf(time); requestAnimationFrame(raf); };
